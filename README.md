@@ -5,3 +5,4 @@ from The Odin Project's [curriculum](https://www.theodinproject.com/paths/full-s
 # Build with:
 
 - React
+- TailwindCSS
