@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, LevelCard } from './components';
+import { Footer, Header, LevelCard } from './components';
 
 const levels = ['Level 1', 'Level 2', 'Level 3'];
 
@@ -16,6 +16,7 @@ function App() {
           />
         ))}
       </div>
+      <Footer />
     </div>
   );
 }
