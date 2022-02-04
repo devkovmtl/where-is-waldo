@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { characters, charactersName, levelsPosition } from '../../constants';
 import { checkPoint } from '../../utils';
@@ -26,6 +26,12 @@ export default function Game() {
   const params = useParams();
   const levelId = params.levelId;
 
+  useEffect(() => {
+    if (isWaldoFound && isWendaFound && isWizardFound && isOdlawFound) {
+      alert('Congratulations, you found everyone!');
+    }
+  }, [isWaldoFound, isWendaFound, isWizardFound, isOdlawFound]);
+
   const handleImgClick = (e: React.MouseEvent) => {
     const rect = (e.target as Element).getBoundingClientRect();
     const mouseleft = e.clientX - rect.left;
@@ -35,12 +41,6 @@ export default function Game() {
     setTargetPosition({ top: mouseTop, left: mouseleft });
     setShowTarget(true);
   };
-  console.log(
-    'MOUSE LEFT: ',
-    mousePosition.left,
-    ' MOUSE TOP: ',
-    mousePosition.top
-  );
 
   const checkIfFound = (name: charactersName): void => {
     const levelNum = `level${levelId}` as 'level1' | 'level2' | 'level3';
