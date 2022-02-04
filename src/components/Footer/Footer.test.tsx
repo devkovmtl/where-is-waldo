@@ -7,6 +7,6 @@ describe('<Footer />', () => {
 
     const footerElement = screen.queryByText(/copyright/i);
     expect(footerElement).toBeInTheDocument();
-    expect(footerElement?.classList.contains('text-2xl')).toBe(true);
+    expect(footerElement?.classList.contains('text-black')).toBe(true);
   });
 });
