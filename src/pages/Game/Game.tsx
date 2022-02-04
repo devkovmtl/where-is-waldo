@@ -18,6 +18,10 @@ export default function Game() {
     top: -1000,
     left: -1000,
   });
+  const [isWaldoFound, setIsWaldoFound] = useState(false);
+  const [isWendaFound, setIsWendaFound] = useState(false);
+  const [isWizardFound, setIsWizardFound] = useState(false);
+  const [isOdlawFound, setIsOdlawFound] = useState(false);
 
   const params = useParams();
   const levelId = params.levelId;
@@ -50,10 +54,25 @@ export default function Game() {
     );
     if (found) {
       alert(`You found ${name}`);
+      switch (name) {
+        case 'Waldo':
+          setIsWaldoFound(true);
+          break;
+        case 'Wenda':
+          setIsWendaFound(true);
+          break;
+        case 'Wizard':
+          setIsWizardFound(true);
+          break;
+        case 'Odlaw':
+          setIsOdlawFound(true);
+          break;
+        default:
+          break;
+      }
     }
     setShowTarget(false);
   };
-  console.log(showTarget);
   return (
     <div className='mt-20  mx-auto p-5 w-[980px] relative'>
       <div
