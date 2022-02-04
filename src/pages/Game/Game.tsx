@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { characters } from '../../constants';
+import { characters, charactersName, levelsPosition } from '../../constants';
+import { checkPoint } from '../../utils';
 
 type Position = {
   top: number;
@@ -23,12 +24,11 @@ export default function Game() {
 
   const handleImgClick = (e: React.MouseEvent) => {
     const rect = (e.target as Element).getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    console.log('LEFT: ', x, ' TOP: ', y);
+    const mouseleft = e.clientX - rect.left;
+    const mouseTop = e.clientY - rect.top;
 
-    setMousePosition({ top: y, left: x });
-    setTargetPosition({ top: y, left: x });
+    setMousePosition({ top: mouseTop, left: mouseleft });
+    setTargetPosition({ top: mouseTop, left: mouseleft });
     setShowTarget(true);
   };
   console.log(
@@ -37,8 +37,25 @@ export default function Game() {
     ' MOUSE TOP: ',
     mousePosition.top
   );
+
+  const checkIfFound = (name: charactersName): void => {
+    const levelNum = `level${levelId}` as 'level1' | 'level2' | 'level3';
+    const { top, left } = levelsPosition[`${levelNum}`][`${name}`];
+    const found = checkPoint(
+      targetPosition.left,
+      targetPosition.top,
+      left,
+      top,
+      20
+    );
+    if (found) {
+      alert(`You found ${name}`);
+    }
+    setShowTarget(false);
+  };
+  console.log(showTarget);
   return (
-    <div className='mt-20 container mx-auto p-5 w-[980px] relative'>
+    <div className='mt-20  mx-auto p-5 w-[980px] relative'>
       <div
         className={`${
           showTarget
@@ -50,10 +67,11 @@ export default function Game() {
           left: `${targetPosition.left + 45}px`,
         }}
       >
-        {characters.map((el, idx) => (
+        {characters.map((el: charactersName, idx) => (
           <div
             key={idx}
             className='px-4 rounded-md  hover:bg-slate-400 hover:cursor-pointer'
+            onClick={() => checkIfFound(el)}
           >
             <p>{el}</p>
           </div>
