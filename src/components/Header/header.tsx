@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { CharacterCardContainer } from '../../containers';
 const HomePageContentHeader = (
   <div className='h-full flex justify-center items-center'>
     <h1 className='text-red-500 font-bold text-2xl lg:text-4xl'>
@@ -19,7 +19,7 @@ const GamePageContentHeader = () => {
       >
         HOME
       </button>
-      <div>Char</div>
+      <CharacterCardContainer />
     </div>
   );
 };
