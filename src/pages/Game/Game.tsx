@@ -11,6 +11,7 @@ export default function Game() {
     top: 0,
     left: 0,
   });
+
   const params = useParams();
   const levelId = params.levelId;
 
@@ -18,12 +19,18 @@ export default function Game() {
     const rect = (e.target as Element).getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
+    console.log('LEFT: ', x, ' TOP: ', y);
 
     setMousePosition({ top: y, left: x });
   };
-
+  console.log(
+    'MOUSE LEFT: ',
+    mousePosition.left,
+    ' MOUSE TOP: ',
+    mousePosition.top
+  );
   return (
-    <div className='mt-20 container mx-auto p-5 w-[640px]'>
+    <div className='mt-20 container mx-auto p-5 w-[980px]'>
       <img
         className='w-full hover:cursor-crosshair'
         src={require(`../../images/levels/Level ${levelId}.jpg`)}
