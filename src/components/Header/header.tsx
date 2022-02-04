@@ -27,7 +27,7 @@ const GamePageContentHeader = () => {
 export default function Header() {
   const location = useLocation();
   return (
-    <header className='bg-white flex-none h-20 fixed w-full top-0 left-0 shadow'>
+    <header className='bg-white flex-none h-20 fixed w-full top-0 left-0 shadow z-50'>
       {location.pathname === '/' ? (
         HomePageContentHeader
       ) : (
