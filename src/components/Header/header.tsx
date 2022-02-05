@@ -44,7 +44,7 @@ const GamePageContentHeader = ({ charactersFound, seconds }: HeaderProps) => {
 
 export default function Header({ charactersFound, seconds }: HeaderProps) {
   const location = useLocation();
-  console.log(charactersFound);
+
   return (
     <header className='bg-white flex-none h-20 fixed w-full top-0 left-0 shadow z-50'>
       {location.pathname === '/' ? (

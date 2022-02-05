@@ -29,11 +29,6 @@ export default function Game({
       setSeconds(seconds + 1);
     }, 1000);
 
-    return () => clearInterval(interval);
-  }, [seconds]);
-
-  // check if get is over
-  useEffect(() => {
     if (
       charactersFound.Waldo &&
       charactersFound.Wenda &&
@@ -42,15 +37,16 @@ export default function Game({
     ) {
       alert('Congratulations, you found everyone!');
       setGameOver(true);
+      setSeconds(0);
     }
-  }, [charactersFound]);
 
-  useEffect(() => {
     // reset the game
     if (isGameOver) {
       resetGame();
     }
-  }, [isGameOver]);
+
+    return () => clearInterval(interval);
+  }, [seconds, charactersFound, isGameOver]);
 
   const handleImgClick = (e: React.MouseEvent) => {
     const rect = (e.target as Element).getBoundingClientRect();
