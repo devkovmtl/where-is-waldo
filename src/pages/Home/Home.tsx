@@ -9,6 +9,7 @@ export default function Home() {
     <div className='container h-full min-h-screen mt-20 py-9 px-10 mx-auto flex flex-col items-center justify-center gap-4 sm:grid md:grid-cols-2 md:items-start lg:grid-cols-3'>
       {levels.map((el, idx) => {
         const levelId = el.split(' ')[1];
+
         return (
           <LevelCard
             key={idx}

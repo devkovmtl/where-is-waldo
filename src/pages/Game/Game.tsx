@@ -47,7 +47,9 @@ export default function Game({
 
   useEffect(() => {
     // reset the game
-    resetGame();
+    if (isGameOver) {
+      resetGame();
+    }
   }, [isGameOver]);
 
   const handleImgClick = (e: React.MouseEvent) => {
