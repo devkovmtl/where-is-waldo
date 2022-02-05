@@ -1,4 +1,5 @@
-export type charactersName = 'Waldo' | 'Wizard' | 'Wenda' | 'Odlaw';
+import { charactersName } from './types';
+
 export const characters: charactersName[] = [
   'Waldo',
   'Wizard',

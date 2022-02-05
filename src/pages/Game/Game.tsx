@@ -1,43 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { characters, charactersName, levelsPosition } from '../../constants';
+import { useParams, useNavigate } from 'react-router-dom';
+import { charactersName, GameProps, Position } from '../../types';
+import { characters, levelsPosition } from '../../constants';
 import { checkPoint } from '../../utils';
 
-type Position = {
-  top: number;
-  left: number;
-};
-
-export default function Game() {
-  const [mousePosition, setMousePosition] = useState<Position>({
-    top: 0,
-    left: 0,
-  });
+export default function Game({
+  charactersFound,
+  setCharactersFound,
+  seconds,
+  setSeconds,
+  isGameOver,
+  setGameOver,
+}: GameProps) {
+  const navigate = useNavigate();
   const [showTarget, setShowTarget] = useState<boolean>(false);
   const [targetPosition, setTargetPosition] = useState<Position>({
     top: -1000,
     left: -1000,
   });
-  const [isWaldoFound, setIsWaldoFound] = useState(false);
-  const [isWendaFound, setIsWendaFound] = useState(false);
-  const [isWizardFound, setIsWizardFound] = useState(false);
-  const [isOdlawFound, setIsOdlawFound] = useState(false);
 
+  // Grab the params from url to get the level
   const params = useParams();
   const levelId = params.levelId;
 
+  // set interval to know player resolve time
   useEffect(() => {
-    if (isWaldoFound && isWendaFound && isWizardFound && isOdlawFound) {
+    let interval = setInterval(() => {
+      setSeconds(seconds + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [seconds]);
+
+  // check if get is over
+  useEffect(() => {
+    if (
+      charactersFound.Waldo &&
+      charactersFound.Wenda &&
+      charactersFound.Wizard &&
+      charactersFound.Odlaw
+    ) {
       alert('Congratulations, you found everyone!');
+      setGameOver(true);
     }
-  }, [isWaldoFound, isWendaFound, isWizardFound, isOdlawFound]);
+  }, [charactersFound]);
+
+  useEffect(() => {
+    // reset the game
+    resetGame();
+  }, [isGameOver]);
 
   const handleImgClick = (e: React.MouseEvent) => {
     const rect = (e.target as Element).getBoundingClientRect();
     const mouseleft = e.clientX - rect.left;
     const mouseTop = e.clientY - rect.top;
-
-    setMousePosition({ top: mouseTop, left: mouseleft });
     setTargetPosition({ top: mouseTop, left: mouseleft });
     setShowTarget(true);
   };
@@ -53,19 +69,18 @@ export default function Game() {
       20
     );
     if (found) {
-      alert(`You found ${name}`);
       switch (name) {
         case 'Waldo':
-          setIsWaldoFound(true);
+          setCharactersFound((prevState) => ({ ...prevState, Waldo: true }));
           break;
         case 'Wenda':
-          setIsWendaFound(true);
+          setCharactersFound((prevState) => ({ ...prevState, Wenda: true }));
           break;
         case 'Wizard':
-          setIsWizardFound(true);
+          setCharactersFound((prevState) => ({ ...prevState, Wizard: true }));
           break;
         case 'Odlaw':
-          setIsOdlawFound(true);
+          setCharactersFound((prevState) => ({ ...prevState, Odlaw: true }));
           break;
         default:
           break;
@@ -73,29 +88,48 @@ export default function Game() {
     }
     setShowTarget(false);
   };
+
+  const resetGame = () => {
+    setCharactersFound((prevState) => ({
+      ...prevState,
+      Waldo: false,
+      Wenda: false,
+      Wizard: false,
+      Odlaw: false,
+    }));
+    setSeconds(0);
+    setGameOver(false);
+    navigate('/');
+  };
+
   return (
     <div className='mt-20  mx-auto p-5 w-[980px] relative'>
-      <div
-        className={`${
-          showTarget
-            ? 'absolute border-2  border-purple-600 rounded-md bg-white px-2 py-1 space-y-1'
-            : 'hidden'
-        }`}
-        style={{
-          top: `${targetPosition.top}px`,
-          left: `${targetPosition.left + 45}px`,
-        }}
-      >
-        {characters.map((el: charactersName, idx) => (
-          <div
-            key={idx}
-            className='px-4 rounded-md  hover:bg-slate-400 hover:cursor-pointer'
-            onClick={() => checkIfFound(el)}
-          >
-            <p>{el}</p>
-          </div>
-        ))}
-      </div>
+      {isGameOver ? null : (
+        <div
+          className={`${
+            showTarget
+              ? 'absolute border-2  border-purple-600 rounded-md bg-white px-2 py-1 space-y-1'
+              : 'hidden'
+          }`}
+          style={{
+            top: `${targetPosition.top}px`,
+            left: `${targetPosition.left + 45}px`,
+          }}
+        >
+          {characters.map((el: charactersName, idx) => {
+            const isFound = charactersFound[el];
+            return isFound ? null : (
+              <div
+                key={idx}
+                className='px-4 rounded-md  hover:bg-slate-400 hover:cursor-pointer'
+                onClick={() => checkIfFound(el)}
+              >
+                <p>{el}</p>
+              </div>
+            );
+          })}
+        </div>
+      )}
       <img
         className='w-full hover:cursor-crosshair'
         src={require(`../../images/levels/Level ${levelId}.jpg`)}
