@@ -14,6 +14,8 @@ describe.skip('<Game />', () => {
     const isGameOver = false;
     const setGameOver = jest.fn;
     const setSeconds = jest.fn;
+    const finalScore = 1;
+    const setFinalScore = jest.fn;
 
     render(
       <Game
@@ -23,6 +25,8 @@ describe.skip('<Game />', () => {
         setSeconds={setSeconds}
         isGameOver={isGameOver}
         setGameOver={setGameOver}
+        finalScore={finalScore}
+        setFinalScore={setFinalScore}
       />
     );
 

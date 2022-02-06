@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { characterFound } from './types';
 import { Footer, Header } from './components';
 import { Home, Game } from './pages';
@@ -13,6 +15,7 @@ function App() {
   });
 
   const [seconds, setSeconds] = useState<number>(0);
+  const [finalScore, setFinalScore] = useState<number>(0);
   const [isGameOver, setGameOver] = useState<boolean>(false);
   const location = useLocation();
 
@@ -31,7 +34,12 @@ function App() {
 
   return (
     <div>
-      <Header charactersFound={charactersFound} seconds={seconds} />
+      <Header
+        charactersFound={charactersFound}
+        seconds={seconds}
+        isGameOver={isGameOver}
+        finalScore={finalScore}
+      />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route
@@ -44,11 +52,14 @@ function App() {
               setSeconds={setSeconds}
               isGameOver={isGameOver}
               setGameOver={setGameOver}
+              finalScore={finalScore}
+              setFinalScore={setFinalScore}
             />
           }
         />
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
+      <ToastContainer />
       <Footer />
     </div>
   );

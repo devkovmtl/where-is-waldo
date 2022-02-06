@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { charactersName, GameProps, Position } from '../../types';
 import { characters, levelsPosition } from '../../constants';
 import { checkPoint } from '../../utils';
+import { Modal } from '../../components';
 
 export default function Game({
   charactersFound,
@@ -11,6 +13,8 @@ export default function Game({
   setSeconds,
   isGameOver,
   setGameOver,
+  finalScore,
+  setFinalScore,
 }: GameProps) {
   const navigate = useNavigate();
   const [showTarget, setShowTarget] = useState<boolean>(false);
@@ -18,10 +22,23 @@ export default function Game({
     top: -1000,
     left: -1000,
   });
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   // Grab the params from url to get the level
   const params = useParams();
   const levelId = params.levelId;
+
+  // toast message
+  const notify = (message: string) => {
+    toast.info(message, {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      draggable: false,
+      progress: undefined,
+    });
+  };
 
   // set interval to know player resolve time
   useEffect(() => {
@@ -35,14 +52,14 @@ export default function Game({
       charactersFound.Wizard &&
       charactersFound.Odlaw
     ) {
+      setShowModal(true);
+      setFinalScore(seconds);
       setGameOver(true);
-      setSeconds(0);
-      // alert('Congratulations, you found everyone!');
     }
 
-    // reset the game
     if (isGameOver) {
-      resetGame();
+      setFinalScore(seconds);
+      clearInterval(interval);
     }
 
     return () => clearInterval(interval);
@@ -70,34 +87,25 @@ export default function Game({
       switch (name) {
         case 'Waldo':
           setCharactersFound((prevState) => ({ ...prevState, Waldo: true }));
+          notify(`You found Waldo!`);
           break;
         case 'Wenda':
           setCharactersFound((prevState) => ({ ...prevState, Wenda: true }));
+          notify(`You found Wenda!`);
           break;
         case 'Wizard':
           setCharactersFound((prevState) => ({ ...prevState, Wizard: true }));
+          notify(`You found Wizard!`);
           break;
         case 'Odlaw':
           setCharactersFound((prevState) => ({ ...prevState, Odlaw: true }));
+          notify(`You found Odlaw!`);
           break;
         default:
           break;
       }
     }
     setShowTarget(false);
-  };
-
-  const resetGame = () => {
-    setCharactersFound((prevState) => ({
-      ...prevState,
-      Waldo: false,
-      Wenda: false,
-      Wizard: false,
-      Odlaw: false,
-    }));
-    setSeconds(0);
-    setGameOver(false);
-    navigate('/');
   };
 
   return (
@@ -134,6 +142,9 @@ export default function Game({
         alt="where's waldo"
         onClick={handleImgClick}
       />
+      {showModal ? (
+        <Modal setShowModal={setShowModal} finalScore={finalScore} />
+      ) : null}
     </div>
   );
 }

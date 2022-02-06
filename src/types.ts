@@ -12,6 +12,8 @@ export type characterFound = {
 export type HeaderProps = {
   charactersFound: characterFound;
   seconds: number;
+  isGameOver: boolean;
+  finalScore: number;
 };
 
 export type Position = {
@@ -38,4 +40,6 @@ export type GameProps = {
   setSeconds: React.Dispatch<number>;
   isGameOver: boolean;
   setGameOver: React.Dispatch<boolean>;
+  finalScore: number;
+  setFinalScore: React.Dispatch<number>;
 };

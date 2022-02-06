@@ -13,7 +13,12 @@ const HomePageContentHeader = (
   </div>
 );
 
-const GamePageContentHeader = ({ charactersFound, seconds }: HeaderProps) => {
+const GamePageContentHeader = ({
+  charactersFound,
+  seconds,
+  isGameOver,
+  finalScore,
+}: HeaderProps) => {
   const navigate = useNavigate();
   return (
     <div className='h-full flex justify-between items-center px-10'>
@@ -23,27 +28,46 @@ const GamePageContentHeader = ({ charactersFound, seconds }: HeaderProps) => {
       >
         HOME
       </button>
-      <p>
-        {time(seconds)[0] < 10 ? `0${time(seconds)[0]}` : time(seconds)[0]}:
-        {time(seconds)[1] < 10 ? `0${time(seconds)[1]}` : time(seconds)[1]}
-      </p>
-      <div className='space-x-1 hidden sm:flex'>
-        {characters.map((el, idx) => {
-          const isFound = charactersFound[el];
-          return isFound ? (
-            <div className='opacity-30' key={idx}>
-              <CharacterCard name={el} />
-            </div>
-          ) : (
-            <CharacterCard key={idx} name={el} />
-          );
-        })}
-      </div>
+      {isGameOver ? (
+        <p>
+          {time(finalScore)[0] < 10
+            ? `0${time(finalScore)[0]}`
+            : time(finalScore)[0]}
+          :
+          {time(finalScore)[1] < 10
+            ? `0${time(finalScore)[1]}`
+            : time(finalScore)[1]}
+        </p>
+      ) : (
+        <>
+          <p>
+            {time(seconds)[0] < 10 ? `0${time(seconds)[0]}` : time(seconds)[0]}:
+            {time(seconds)[1] < 10 ? `0${time(seconds)[1]}` : time(seconds)[1]}
+          </p>
+          <div className='space-x-1 hidden sm:flex'>
+            {characters.map((el, idx) => {
+              const isFound = charactersFound[el];
+              return isFound ? (
+                <div className='opacity-30' key={idx}>
+                  <CharacterCard name={el} />
+                </div>
+              ) : (
+                <CharacterCard key={idx} name={el} />
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
-export default function Header({ charactersFound, seconds }: HeaderProps) {
+export default function Header({
+  charactersFound,
+  seconds,
+  isGameOver,
+  finalScore,
+}: HeaderProps) {
   const location = useLocation();
 
   return (
@@ -54,6 +78,8 @@ export default function Header({ charactersFound, seconds }: HeaderProps) {
         <GamePageContentHeader
           charactersFound={charactersFound}
           seconds={seconds}
+          isGameOver={isGameOver}
+          finalScore={finalScore}
         />
       )}
     </header>

@@ -10,7 +10,16 @@ describe('<Header />', () => {
       Odlaw: false,
     };
     const number = 1;
-    render(<Header charactersFound={charactersFound} seconds={number} />);
+    let isGameOver = false;
+    let finalScore = 1;
+    render(
+      <Header
+        charactersFound={charactersFound}
+        seconds={number}
+        isGameOver={isGameOver}
+        finalScore={finalScore}
+      />
+    );
 
     const header = screen.queryByText('Find Waldo !');
     expect(header).toBeInTheDocument();
