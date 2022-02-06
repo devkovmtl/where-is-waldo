@@ -35,9 +35,9 @@ export default function Game({
       charactersFound.Wizard &&
       charactersFound.Odlaw
     ) {
-      alert('Congratulations, you found everyone!');
       setGameOver(true);
       setSeconds(0);
+      // alert('Congratulations, you found everyone!');
     }
 
     // reset the game

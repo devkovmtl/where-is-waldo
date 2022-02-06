@@ -24,7 +24,8 @@ const GamePageContentHeader = ({ charactersFound, seconds }: HeaderProps) => {
         HOME
       </button>
       <p>
-        {time(seconds)[0]}:{time(seconds)[1]}
+        {time(seconds)[0] < 10 ? `0${time(seconds)[0]}` : time(seconds)[0]}:
+        {time(seconds)[1] < 10 ? `0${time(seconds)[1]}` : time(seconds)[1]}
       </p>
       <div className='space-x-1 hidden sm:flex'>
         {characters.map((el, idx) => {
