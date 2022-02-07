@@ -1,5 +1,6 @@
-import React, { FormEventHandler, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import firebaseServices from '../../services/firebase.services';
 
 type ModalProps = {
   setShowModal: React.Dispatch<boolean>;
@@ -11,9 +12,19 @@ const Modal = ({ setShowModal, finalScore }: ModalProps) => {
   const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(username);
-    setShowModal(false);
-    navigate('/');
+    if (!username.trim()) {
+      return;
+    }
+    firebaseServices
+      .addUser({ username, score: finalScore })
+      ?.then(() => {
+        setShowModal(false);
+        navigate('/');
+      })
+      .catch((error) => {
+        setShowModal(false);
+        navigate('/');
+      });
   };
   return (
     <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity w-screen h-screen z-50 flex items-center justify-center'>

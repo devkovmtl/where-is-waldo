@@ -42,4 +42,5 @@ export type GameProps = {
   setGameOver: React.Dispatch<boolean>;
   finalScore: number;
   setFinalScore: React.Dispatch<number>;
+  solution: any;
 };

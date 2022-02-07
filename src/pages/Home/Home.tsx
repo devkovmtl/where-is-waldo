@@ -14,7 +14,7 @@ export default function Home() {
           <LevelCard
             key={idx}
             level={el}
-            backgroundImg={require(`../../images/levels/${el}.jpg`)}
+            backgroundImg={require(`../../assets/images/levels/Level${levelId}.jpg`)}
             onClickNavigate={() => navigate(`game/${levelId}`)}
           />
         );

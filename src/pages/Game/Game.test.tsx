@@ -27,6 +27,7 @@ describe.skip('<Game />', () => {
         setGameOver={setGameOver}
         finalScore={finalScore}
         setFinalScore={setFinalScore}
+        solution={{}}
       />
     );
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import firebaseServices from './services/firebase.services';
 import { characterFound } from './types';
 import { Footer, Header } from './components';
 import { Home, Game } from './pages';
@@ -17,7 +18,12 @@ function App() {
   const [seconds, setSeconds] = useState<number>(0);
   const [finalScore, setFinalScore] = useState<number>(0);
   const [isGameOver, setGameOver] = useState<boolean>(false);
+  const [solution, setSolution] = useState({});
   const location = useLocation();
+
+  useEffect(() => {
+    getAllSolutions();
+  }, []);
 
   // reset the game when user change the page
   useEffect(() => {
@@ -31,6 +37,17 @@ function App() {
     setSeconds(0);
     setGameOver(false);
   }, [location]);
+
+  const getAllSolutions = async () => {
+    const { docs } = await firebaseServices.getSolutions();
+    const solution = {};
+    for (let i = 0; i < docs.length; i++) {
+      // @ts-ignore
+      solution[`level${i + 1}`] = { ...docs[i].data() };
+    }
+
+    setSolution((prevState) => ({ ...prevState, ...solution }));
+  };
 
   return (
     <div>
@@ -54,6 +71,7 @@ function App() {
               setGameOver={setGameOver}
               finalScore={finalScore}
               setFinalScore={setFinalScore}
+              solution={solution}
             />
           }
         />

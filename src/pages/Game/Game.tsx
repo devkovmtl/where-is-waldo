@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { charactersName, GameProps, Position } from '../../types';
-import { characters, levelsPosition } from '../../constants';
+import { characters } from '../../constants';
 import { checkPoint } from '../../utils';
 import { Modal } from '../../components';
 
@@ -15,8 +15,8 @@ export default function Game({
   setGameOver,
   finalScore,
   setFinalScore,
+  solution,
 }: GameProps) {
-  const navigate = useNavigate();
   const [showTarget, setShowTarget] = useState<boolean>(false);
   const [targetPosition, setTargetPosition] = useState<Position>({
     top: -1000,
@@ -75,7 +75,7 @@ export default function Game({
 
   const checkIfFound = (name: charactersName): void => {
     const levelNum = `level${levelId}` as 'level1' | 'level2' | 'level3';
-    const { top, left } = levelsPosition[`${levelNum}`][`${name}`];
+    const { top, left } = solution[`${levelNum}`][`${name}`];
     const found = checkPoint(
       targetPosition.left,
       targetPosition.top,
@@ -138,7 +138,7 @@ export default function Game({
       )}
       <img
         className='w-full hover:cursor-crosshair'
-        src={require(`../../images/levels/Level ${levelId}.jpg`)}
+        src={require(`../../assets/images/levels/Level${levelId}.jpg`)}
         alt="where's waldo"
         onClick={handleImgClick}
       />
