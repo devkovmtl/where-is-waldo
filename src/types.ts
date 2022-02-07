@@ -44,3 +44,9 @@ export type GameProps = {
   setFinalScore: React.Dispatch<number>;
   solution: any;
 };
+
+export type UserScore = {
+  id?: string;
+  username: string;
+  score: number;
+};

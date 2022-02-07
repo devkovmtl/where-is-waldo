@@ -26,7 +26,8 @@ class FirebaseService {
   };
 
   getAllUsersByScore = () => {
-    return query(userCollectionRef, orderBy('score'));
+    const q = query(userCollectionRef, orderBy('score'));
+    return getDocs(q);
   };
 
   getSolutions = () => {
