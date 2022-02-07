@@ -5,13 +5,26 @@ import { characters } from '../../constants';
 import { HeaderProps } from '../../types';
 import { time } from '../../utils';
 
-const HomePageContentHeader = (
-  <div className='h-full flex justify-center items-center'>
-    <h1 className='text-red-500 font-bold text-2xl lg:text-4xl'>
-      Find Waldo !
-    </h1>
-  </div>
-);
+const HomePageContentHeader = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  return (
+    <div className='h-full flex justify-center items-center'>
+      <h1 className='flex-1 text-red-500 text-center font-bold text-2xl lg:text-4xl'>
+        Find Waldo !
+      </h1>
+      {location.pathname === '/' ? (
+        <div
+          className='bg-blue-500 hover:bg-blue-700 hover:cursor-pointer text-white font-bold py-2 px-4 mr-4 rounded'
+          onClick={() => navigate('highscore')}
+        >
+          Leaderboard
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 const GamePageContentHeader = ({
   charactersFound,
@@ -72,8 +85,8 @@ export default function Header({
 
   return (
     <header className='bg-white flex-none h-20 fixed w-full top-0 left-0 shadow z-50'>
-      {location.pathname === '/' ? (
-        HomePageContentHeader
+      {location.pathname === '/' || location.pathname === '/highscore' ? (
+        <HomePageContentHeader />
       ) : (
         <GamePageContentHeader
           charactersFound={charactersFound}

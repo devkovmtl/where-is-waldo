@@ -143,7 +143,11 @@ export default function Game({
         onClick={handleImgClick}
       />
       {showModal ? (
-        <Modal setShowModal={setShowModal} finalScore={finalScore} />
+        <Modal
+          setShowModal={setShowModal}
+          finalScore={finalScore}
+          levelNumber={+levelId!}
+        />
       ) : null}
     </div>
   );

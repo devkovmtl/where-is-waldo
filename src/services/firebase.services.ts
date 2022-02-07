@@ -15,6 +15,7 @@ const solutionCollectionRef = collection(db, 'solution');
 type User = {
   username: string;
   score: number;
+  level: number;
 };
 
 class FirebaseService {

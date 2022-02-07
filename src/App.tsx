@@ -3,9 +3,9 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import firebaseServices from './services/firebase.services';
-import { characterFound, UserScore } from './types';
+import { characterFound } from './types';
 import { Footer, Header } from './components';
-import { Home, Game } from './pages';
+import { Home, Game, HighScore } from './pages';
 
 function App() {
   const [charactersFound, setCharactersFound] = useState<characterFound>({
@@ -19,13 +19,11 @@ function App() {
   const [finalScore, setFinalScore] = useState<number>(0);
   const [isGameOver, setGameOver] = useState<boolean>(false);
   const [solution, setSolution] = useState({});
-  const [usersScores, setUsersScore] = useState<UserScore[]>([]);
 
   const location = useLocation();
 
   useEffect(() => {
     getAllSolutions();
-    getAllUsersByScore();
   }, []);
 
   // reset the game when user change the page
@@ -52,19 +50,8 @@ function App() {
     setSolution((prevState) => ({ ...prevState, ...solution }));
   };
 
-  const getAllUsersByScore = async () => {
-    const { docs } = await firebaseServices.getAllUsersByScore();
-    let users: UserScore[] = [];
-    users = docs.map((el) => ({
-      id: el.id,
-      username: el.data().username,
-      score: el.data().score,
-    }));
-    setUsersScore((prevstate) => [...prevstate, ...users]);
-  };
-  console.log(usersScores);
   return (
-    <div>
+    <div className='relative'>
       <Header
         charactersFound={charactersFound}
         seconds={seconds}
@@ -89,6 +76,7 @@ function App() {
             />
           }
         />
+        <Route path='highscore' element={<HighScore />} />
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
       <ToastContainer />

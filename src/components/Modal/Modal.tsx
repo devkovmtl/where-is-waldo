@@ -5,9 +5,10 @@ import firebaseServices from '../../services/firebase.services';
 type ModalProps = {
   setShowModal: React.Dispatch<boolean>;
   finalScore: number;
+  levelNumber: number;
 };
 
-const Modal = ({ setShowModal, finalScore }: ModalProps) => {
+const Modal = ({ setShowModal, finalScore, levelNumber }: ModalProps) => {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -16,7 +17,7 @@ const Modal = ({ setShowModal, finalScore }: ModalProps) => {
       return;
     }
     firebaseServices
-      .addUser({ username, score: finalScore })
+      .addUser({ username, score: finalScore, level: levelNumber })
       ?.then(() => {
         setShowModal(false);
         navigate('/');

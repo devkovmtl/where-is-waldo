@@ -49,4 +49,5 @@ export type UserScore = {
   id?: string;
   username: string;
   score: number;
+  level?: number;
 };
