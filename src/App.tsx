@@ -41,6 +41,7 @@ function App() {
       ) {
         setSolution((prevState) => ({ ...prevState, ...storedSolution }));
       } else {
+        localStorage.removeItem('SOLUTION');
         getAllSolutions();
       }
     }
