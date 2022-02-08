@@ -34,7 +34,15 @@ function App() {
       getAllSolutions();
     } else {
       const storedSolution = JSON.parse(solutionStorage);
-      setSolution((prevState) => ({ ...prevState, ...storedSolution }));
+      if (
+        storedSolution['level1'] &&
+        storedSolution['level2'] &&
+        storedSolution['level3']
+      ) {
+        setSolution((prevState) => ({ ...prevState, ...storedSolution }));
+      } else {
+        getAllSolutions();
+      }
     }
   }, []);
 
