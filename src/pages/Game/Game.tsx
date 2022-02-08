@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { charactersName, GameProps, Position } from '../../types';
-import { characters } from '../../constants';
+import { GameProps, Position } from '../../types';
+import { characters, LEVELSIMAGEPATH, levels } from '../../constants';
 import { checkPoint } from '../../utils';
 import { Modal } from '../../components';
 
@@ -27,6 +27,10 @@ export default function Game({
   // Grab the params from url to get the level
   const params = useParams();
   const levelId = params.levelId;
+  const { index } = levels[parseInt(levelId!) - 1];
+  // image src
+  // @ts-ignore
+  const imageSrc = LEVELSIMAGEPATH[`Level${index}`];
 
   // toast message
   const notify = (message: string) => {
@@ -73,7 +77,7 @@ export default function Game({
     setShowTarget(true);
   };
 
-  const checkIfFound = (name: charactersName): void => {
+  const checkIfFound = (name: string): void => {
     const levelNum = `level${levelId}` as 'level1' | 'level2' | 'level3';
     const { top, left } = solution[`${levelNum}`][`${name}`];
     const found = checkPoint(
@@ -122,15 +126,17 @@ export default function Game({
             left: `${targetPosition.left + 45}px`,
           }}
         >
-          {characters.map((el: charactersName, idx) => {
-            const isFound = charactersFound[el];
+          {characters.map((el, idx) => {
+            const { name } = el;
+            // @ts-ignore
+            const isFound = charactersFound[name];
             return isFound ? null : (
               <div
                 key={idx}
                 className='px-4 rounded-md  hover:bg-slate-400 hover:cursor-pointer'
-                onClick={() => checkIfFound(el)}
+                onClick={() => checkIfFound(name)}
               >
-                <p>{el}</p>
+                <p>{name}</p>
               </div>
             );
           })}
@@ -138,7 +144,7 @@ export default function Game({
       )}
       <img
         className='w-full hover:cursor-crosshair'
-        src={require(`../../assets/images/levels/Level${levelId}.jpg`)}
+        src={imageSrc}
         alt="where's waldo"
         onClick={handleImgClick}
       />

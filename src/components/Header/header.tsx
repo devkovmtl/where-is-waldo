@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CharacterCard } from '..';
-import { characters } from '../../constants';
+import { characters, CHARACTERSIMAGEPATH } from '../../constants';
 import { HeaderProps } from '../../types';
 import { time } from '../../utils';
 
@@ -33,6 +33,7 @@ const GamePageContentHeader = ({
   finalScore,
 }: HeaderProps) => {
   const navigate = useNavigate();
+
   return (
     <div className='h-full flex justify-between items-center px-10'>
       <button
@@ -59,13 +60,17 @@ const GamePageContentHeader = ({
           </p>
           <div className='space-x-1 hidden sm:flex'>
             {characters.map((el, idx) => {
-              const isFound = charactersFound[el];
+              const { name } = el;
+              // @ts-ignore
+              const imageSrc = CHARACTERSIMAGEPATH[name];
+              // @ts-ignore
+              const isFound = charactersFound[name];
               return isFound ? (
                 <div className='opacity-30' key={idx}>
-                  <CharacterCard name={el} />
+                  <CharacterCard name={name} imageSrc={imageSrc} />
                 </div>
               ) : (
-                <CharacterCard key={idx} name={el} />
+                <CharacterCard key={idx} name={name} imageSrc={imageSrc} />
               );
             })}
           </div>

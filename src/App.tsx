@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import firebaseServices from './services/firebase.services';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { characterFound } from './types';
+
 import { Footer, Header } from './components';
 import { Home, Game, HighScore } from './pages';
 
@@ -15,15 +18,24 @@ function App() {
     Odlaw: false,
   });
 
+  const [solution, setSolution] = useState({});
   const [seconds, setSeconds] = useState<number>(0);
   const [finalScore, setFinalScore] = useState<number>(0);
   const [isGameOver, setGameOver] = useState<boolean>(false);
-  const [solution, setSolution] = useState({});
 
+  // use to check if user change page
   const location = useLocation();
 
+  // on initial render of app fetch all the solution.
+  // store in localstorage to avoid calling db
   useEffect(() => {
-    getAllSolutions();
+    const solutionStorage = localStorage.getItem('SOLUTION');
+    if (!solutionStorage) {
+      getAllSolutions();
+    } else {
+      const storedSolution = JSON.parse(solutionStorage);
+      setSolution((prevState) => ({ ...prevState, ...storedSolution }));
+    }
   }, []);
 
   // reset the game when user change the page
@@ -36,9 +48,11 @@ function App() {
       Odlaw: false,
     }));
     setSeconds(0);
+    setFinalScore(0);
     setGameOver(false);
   }, [location]);
 
+  // fetch solution from our db
   const getAllSolutions = async () => {
     const { docs } = await firebaseServices.getSolutions();
     const solution = {};
@@ -46,6 +60,8 @@ function App() {
       // @ts-ignore
       solution[`level${i + 1}`] = { ...docs[i].data() };
     }
+
+    localStorage.setItem('SOLUTION', JSON.stringify(solution));
 
     setSolution((prevState) => ({ ...prevState, ...solution }));
   };

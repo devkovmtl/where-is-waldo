@@ -1,10 +1,53 @@
-import { charactersName } from './types';
+export const LEVELSIMAGEPATH = {
+  Level1:
+    'https://firebasestorage.googleapis.com/v0/b/waldo-71d19.appspot.com/o/Level1.jpg?alt=media&token=62ce8343-578d-477e-9a6c-3ae079d2e01b',
+  Level2:
+    'https://firebasestorage.googleapis.com/v0/b/waldo-71d19.appspot.com/o/Level2.jpg?alt=media&token=68fa930f-83cc-44ea-8442-139eb9ee1653',
+  Level3:
+    'https://firebasestorage.googleapis.com/v0/b/waldo-71d19.appspot.com/o/Level3.jpg?alt=media&token=876d8ecd-ab33-4ad0-811c-4cae52f3df14',
+};
 
-export const characters: charactersName[] = [
-  'Waldo',
-  'Wizard',
-  'Wenda',
-  'Odlaw',
+export const CHARACTERSIMAGEPATH = {
+  Waldo:
+    'https://firebasestorage.googleapis.com/v0/b/waldo-71d19.appspot.com/o/Waldo.jpg?alt=media&token=971718ca-49b8-43c3-8e39-3b055f02c8c6',
+  Odlaw:
+    'https://firebasestorage.googleapis.com/v0/b/waldo-71d19.appspot.com/o/Odlaw.jpg?alt=media&token=c03659da-e1e5-4d7c-9a53-adba88043001',
+  Wenda:
+    'https://firebasestorage.googleapis.com/v0/b/waldo-71d19.appspot.com/o/Wenda.jpg?alt=media&token=0495ff96-7e77-4369-be75-96e35b4adf5f',
+  Wizard:
+    'https://firebasestorage.googleapis.com/v0/b/waldo-71d19.appspot.com/o/Wizard.jpg?alt=media&token=039542bc-fd87-4149-8603-099593e90697',
+};
+
+export const characters = [
+  {
+    name: 'Waldo',
+  },
+  {
+    name: 'Wizard',
+  },
+  {
+    name: 'Wenda',
+  },
+  {
+    name: 'Odlaw',
+  },
+];
+
+export const levels = [
+  {
+    index: 1,
+    name: 'Level 1',
+  },
+
+  {
+    index: 2,
+    name: 'Level 2',
+  },
+
+  {
+    index: 3,
+    name: 'Level 3',
+  },
 ];
 
 // export const levelsPosition = {

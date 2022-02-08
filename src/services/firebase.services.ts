@@ -1,9 +1,7 @@
 import {
   collection,
   getDocs,
-  getDoc,
   addDoc,
-  doc,
   query,
   orderBy,
 } from 'firebase/firestore';
@@ -23,15 +21,18 @@ class FirebaseService {
     if (!user.username || !user.score) {
       return;
     }
+    console.log('FIREBASE CALL ADD USER');
     return addDoc(userCollectionRef, user);
   };
 
   getAllUsersByScore = () => {
     const q = query(userCollectionRef, orderBy('score'));
+    console.log('FIREBASE CALL GET ALL USERS BY SCORE');
     return getDocs(q);
   };
 
   getSolutions = () => {
+    console.log('FIREBASE CALL GET SOLUTION');
     return getDocs(solutionCollectionRef);
   };
 }
